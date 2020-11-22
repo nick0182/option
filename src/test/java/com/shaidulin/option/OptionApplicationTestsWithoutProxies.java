@@ -2,7 +2,7 @@ package com.shaidulin.option;
 
 import com.shaidulin.option.car.impl.*;
 import com.shaidulin.option.race.RaceService;
-import com.shaidulin.option.race.RaceServiceImpl;
+import com.shaidulin.option.race.RaceServiceCasual;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,16 +14,16 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class OptionApplicationTests {
+public class OptionApplicationTestsWithoutProxies {
 
     @SpringBootTest(classes = Configuration1.class)
     static class Test1 {
         @Autowired
-        private RaceService raceService;
+        private RaceService raceServiceCasual;
 
         @Test
         void validOptions() {
-            List<String> result = raceService.race();
+            List<String> result = raceServiceCasual.race();
             assertEquals(result, Lists.newArrayList("Volvo", "Honda"));
         }
     }
@@ -31,11 +31,11 @@ public class OptionApplicationTests {
     @SpringBootTest(classes = Configuration2.class)
     static class Test2 {
         @Autowired
-        private RaceService raceService;
+        private RaceService raceServiceCasual;
 
         @Test
         void validOptions() {
-            List<String> result = raceService.race();
+            List<String> result = raceServiceCasual.race();
             assertEquals(result, Lists.newArrayList("Honda", "BMW", "Renault", "Mazda", "Peugeot", "Volvo"));
         }
     }
@@ -43,25 +43,25 @@ public class OptionApplicationTests {
     @SpringBootTest(classes = Configuration3.class)
     static class Test3 {
         @Autowired
-        private RaceService raceService;
+        private RaceService raceServiceCasual;
 
         @Test
         void validOptions() {
-            List<String> result = raceService.race();
+            List<String> result = raceServiceCasual.race();
             assertEquals(result, Lists.newArrayList("Mazda"));
         }
     }
 
     @Configuration
-    @Import({RaceServiceImpl.class, Volvo.class, Honda.class})
+    @Import({RaceServiceCasual.class, Volvo.class, Honda.class})
     static class Configuration1 {}
 
     @Configuration
-    @Import({RaceServiceImpl.class, Honda.class, BMW.class, Renault.class, Mazda.class, Peugeot.class, Volvo.class})
+    @Import({RaceServiceCasual.class, Honda.class, BMW.class, Renault.class, Mazda.class, Peugeot.class, Volvo.class})
     static class Configuration2 {}
 
     @Configuration
-    @Import({RaceServiceImpl.class, Mazda.class})
+    @Import({RaceServiceCasual.class, Mazda.class})
     static class Configuration3 {}
 
 }
